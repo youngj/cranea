@@ -1,0 +1,508 @@
+CRANEA
+XML Adventure Description Format
+
+Contents
+========
+    1. Data Types
+    2. Elements
+    3. Specialized Actions
+    4. Escape codes / variables
+	
+1. Data Types
+=============
+
+The following identifiers are used in the subsequent sections of this file to describe the types of 
+attribute values and element content:
+
+CDATA - Simple unparsed character data
+
+ACDATA - Character data which can contain variables and escape codes in {...} blocks that are 
+    replaced by the game engine at runtime. (Variables are described in section 4.)
+    Space/tab characters are stripped from the beginning and the end of each line, and 
+    newlines are stripped from the beginning and end of the ACDATA block (but preserved in
+    the middle of the block). 
+    
+LOCID/FILEID/ITEMID - definition of a location, item, or file ID
+
+LOCIDREF/FILEIDREF/ITEMIDREF - a reference to location, item, or file ID defined elsewhere
+
+BOOL - "true" or "false" (case-insensitive)
+
+ACTTYPE - The type of action to execute (case-insensitive):
+    DEFAULT|LOOK|TAKE|DROP|CALL|RETURN|INVENTORY|QUIT|SAVE|LOAD|INSPECT|""
+
+2. Elements
+===========
+
+The below is an alphabetical list of all elements that can be used in a Cranea text adventure.
+
+<ACTION>
+--------
+Actions respond to player input during the text adventure. When the user types a command,
+the current location is first searched for a matching action (whose predicate is satisfied), 
+followed by any parent and ancestor locations. If no matching actions are found, the last token 
+is removed from the user input and the search is repeated. The last token is repeatedly removed 
+and the search repeated until the input is empty. 
+
+If multiple actions match (with the same command and in the same location), the action which appears
+first in the XML file will be executed.
+
+Attributes:
+    - forced = BOOL         # IMPLIED (false)
+        Indicates that the action is executed automatically every time the user enters the location.
+    - firstVisit = BOOL     # IMPLIED (false)
+        Indicates that the action is executed automatically the first time the user enters the location.
+    - returnVisit = BOOL    # IMPLIED (false)
+        Indicates that the action is executed automatically every time the user enters the location,
+        except for the first time.
+    - cmd = CDATA           # IMPLIED ("")
+        The command the user can type in to execute the command. If cmd is empty or omitted, this command
+        will be executed when no other actions match at the current location (unless either of forced,
+        firstVisit, or returnVisit is true).
+    - exact = BOOL          # IMPLIED (false)
+        True if this action should not be executed if tokens have been removed from the user input
+        during the search process described above.
+    - destId = LOCIDREF     # IMPLIED ("")
+        The ID of the location to move to after executing this action. If omitted or empty, the player 
+        stays at the current location.
+    - type = ACTTYPE        # IMPLIED ("")    
+        The type of action to execute.
+
+Content:
+    - ACDATA?
+        Text that is displayed when the user executes the action.
+    - <needs>*
+        Items that are needed in order to decrypt and execute this action.
+    - <takes>* 
+        Items that are added to the player's inventory when the action is executed (if the item is not there already)
+    - <drops>*
+        Items that are dropped from the player's inventory when the action is executed (if the item was in the inventory)
+    - <extracts>*
+        Files that are decrypted and saved on the player's computer when the action is executed
+    - <aux>*
+        Defines additional strings used for special actions..
+    - <alt>*
+        Alternate commands that can be used to execute this action (in addition to the one given by the "cmd" attribute)
+    - <or>*
+        An alternate set of needed items that can be used to decrypt and execute this action.
+
+<ADVENTURE>
+-----------
+The adventure element is the root element of the adventure definition.
+
+Attributes:
+    - name = CDATA      #REQUIRED
+        The name of the text adventure, used as the filename of the .exe and .ets files.        
+    - start = LOCIDREF  #IMPLIED
+        The ID of the location where the adventure begins. Must be a direct child of the 
+        adventure tag. If omitted, the first child location is used as the start location.
+
+Content:
+    - <file>*
+        External files that can be decrypted by actions in the adventure.    
+    - <location>+
+        Locations at the top level of the adventure.
+    - <cleartext>*
+        Text to display at the beginning of the encrypted data file.
+
+
+<ALT> (under <ITEM>)
+--------------------
+Specifies an alternate title for the item, for use by TAKE/DROP/INSPECT commands.
+
+Attributes:
+    - title = CDATA     #REQUIRED
+        An alternate title.
+
+Content:
+    None
+
+<ALT> (under <ACTION>)
+--------------------
+Specifies an alternate command to execute the action.
+
+Attributes:
+    - cmd = CDATA     #REQUIRED
+        An alternate command that the user could type.
+        
+Content:
+    None
+
+<AUX>
+-----
+Specifies auxiliary data used by specialized action types, in the form of a key/value pair.
+
+Attributes:
+    - key = CDATA       #REQUIRED
+        A string identifying the value (specified by the type of the current action).
+    
+Content:
+    - CDATA/ACDATA
+        A string value for the given key.
+
+<CLEARTEXT>
+-----------
+A cleartext message to display at the beginning of the encrypted data file.
+
+Attributes:
+    None
+
+Content:
+    - CDATA
+        Some text.
+
+<DROPS>
+-------
+Specifies an item that is dropped by an action if it is present in the inventory.
+
+Attributes:
+    - item = ITEMREF
+        The item that is dropped.
+    
+Content:
+    None
+
+
+<EXTRACTS>
+----------
+Specifies a file that should be extracted by the current action, and whether it should be 
+launched (using the default handler for that file extension provided by the player's system). 
+If multiple <extracts> elements are listed for an action, all of the files will be extracted
+before any are launched.
+
+Attributes:
+    - file = FILEID     #REQUIRED
+        The ID of the file to extract.
+    - launch = BOOL     #IMPLIED (true)
+        True if we should attempt to open this file after extracting it.
+        
+
+<FILE>
+------
+An external file which is encrypted in the data file and can be extracted/launched by specific actions.
+
+Attributes:
+    - id = FILEID           #REQUIRED
+        The ID of this file, unique within the adventure.
+    - src = CDATA           #REQUIRED
+        The path to the file on the computer that is compiling the text adventure; 
+        may be relative to the directory from which compiler.exe is run.        
+    - dest = CDATA          #OPTIONAL ("")    
+        The name of the file when it is extracted. If empty, the base filename of src
+        (the component after the last "/" or "\" token) will be used.
+
+Content:
+    None
+
+       
+<LOCATION>
+----------
+Locations determine the user's context at any point in the adventure. Each location contains
+actions which respond to commands typed by the player at the command line. Locations can also specify 
+synonyms and ignored words. Locations can be nested inside other ("parent") locations, in which case 
+they inherit the actions, synonyms, and ignored words defined by their parent/ancestor actions.
+
+Attributes:
+    - id = LOCID        #REQUIRED
+        The ID of this location. Must be unique among all location IDs in the document.
+    - title = ACDATA    #IMPLIED ("")
+        The title of this location. Actions can print the title of the current location using 
+        the string {T}.
+    - start = LOCIDREF  #IMPLIED ("")
+        The ID of a child location to automatically move to whenever the user enters this location.
+    - prompt = ACDATA   #IMPLIED ("")
+        The text to display to the left of the cursor when awaiting user input.
+        
+Content:
+    - ACDATA?
+        The description of the location.
+    - <location>*
+        Child locations of this location
+    - <item>*
+        Items that are initially at this location.
+    - <action>*
+        Actions at this location. They are searched 
+    - <synonyms>*
+        Sets of synonyms at this location.
+    - <ignored>*
+        Tokens from user input that are ignored at this location
+                
+<IGNORED>
+---------
+A token that is ignored in the parent <location> tag as well as descendant locations.
+
+Attributes:
+    - token = CDATA
+        A token        
+
+Content:
+    None
+
+<ITEM>
+------
+Items are things that can be used as predicates for actions. Items can either be treated as 
+logical states which are invisible to the user, or as tangible objects which can be taken, dropped,
+seen at a location, or listed in the player's inventory.
+
+Attributes:
+    - id = ITEMID           #REQUIRED
+        The ID of this item, unique within the adventure.
+    - title = CDATA         #IMPLIED ("")
+        The title of this item, displayed by "LOOK" or "INVENTORY" actions, 
+        and used by "TAKE" and "DROP" actions to select the correct item.
+        If blank, it will be invisible to both LOOK or INVENTORY actions.
+    - restrictTake = BOOL   #IMPLIED (true)
+        True if this item cannot be taken by a generic TAKE command; false to 
+        only allow actions with a corresponding <takes> element to take this item.
+    - visible = BOOL        #IMPLIED (true)
+        False makes this item invisible to LOOK actions. It has no impact
+        on the visibility to INVENTORY actions.
+
+Content:
+    - ACDATA?
+        - The description of the item, for use by "INSPECT" commands (currently unimplemented).
+
+<NEEDS>
+-------
+Specifies an item that is needed in order to execute an action.
+
+Attributes:
+    - item = ITEMREF
+        The item that is needed.
+        
+Content:
+    None
+    
+<OR>
+----
+Specifies a set of items which is needed in order to execute an action. 
+The <or> and <needs> tag allow an action predicate to be specified in disjunctive normal form;
+for example, the predicate (a^b)v(c^d) can be expressed as:
+    <or>
+        <needs item='a' />
+        <needs item='b' />
+    </or>
+    <or>
+        <needs item='c' />
+        <needs item='d' />
+    </or>
+    
+Currently there is not a direct way to assert that the player does *not* have a particular
+item, largely because this is cryptographically unenforceable. However, multiple actions 
+can be listed with the same command but different predicates in order to prevent the player
+from executing an action if he has a particular item. For instance:
+    <action cmd='foo'>
+        <needs item='bar' />
+        You have bar.
+    </action>
+    <action cmd='foo'>
+        You don't have bar.
+    </action>
+
+Attributes:
+    None
+
+Content:
+    - <needs>+
+        Items that are needed.
+
+<S>
+---
+A token which is treated as equivalent to the tokens contained in the sibling <s> tags.
+
+Attributes:
+    None
+    
+Content:
+    - CDATA
+        A token
+
+<SYNONYMS>
+----------
+A set of tokens that are treated as equivalent within the current location and any descendant
+locations. 
+
+Attributes:
+    None
+
+Content:
+    - <s>+
+        
+<TAKES>
+-------
+Specifies an item that is taken by the parent action.
+
+Attributes:
+    - item = ITEMREF
+        The item that is taken.
+
+Content:
+    None
+
+
+3. Specialized Actions
+======================
+
+This section describes the action types that are currently implemented, along with any key/value pairs 
+from <aux> tags that have a meaning for that type of action.
+
+DEFAULT
+-------
+No special behavior. (Most actions will have this type.)
+Allows the player to take specific items, drop specific items, and/or move to a different location,
+and prints out a description of the action if provided.
+    
+Aux Keys:
+    None
+    
+LOOK
+----
+Iterates over the visible items at the current location.
+
+Aux Keys:
+    - empty = ACDATA
+        Printed if the current location has no visible items
+    - nonempty = ACDATA
+        Printed before iterating over the items if there are any
+    - prefix = ACDATA
+        Printed before the title of each item.
+    - suffix = ACDATA
+        Printed after the title of each item.
+
+TAKE
+----
+Takes an item specified by the argument to the command from the current location, as long as the item 
+has restrictTake='false'. Allows the game creator to avoid explicitly creating actions with <takes> 
+clauses for each item that can be taken.
+    
+Aux Keys:
+    - success = ACDATA
+        Printed if an item was successfully taken.
+    - failure = ACDATA
+        Printed if no item was taken.
+
+DROP
+----
+Drops the item from the inventory specified by the argument, and adds it to the current location.
+
+Aux Keys:
+    - success = ACDATA
+        Printed if an item was successfully dropped.
+    - failure = ACDATA
+        Printed if no matching item was found in the inventory.
+        
+CALL
+----
+Copies the location stack so that a paired "RETURN" action will return the player to the current location.
+    
+Aux Keys:
+    None
+    
+RETURN    
+------
+Returns to the player's location before a paired action of type "CALL".
+    
+Aux Keys:
+    None
+    
+INVENTORY
+--------- 
+Iterates over the visible items in the player's inventory.
+
+Aux Keys:
+    - empty = ACDATA
+        Printed if the inventory has no visible items
+    - nonempty = ACDATA
+        Printed before iterating over the inventory if the inventory has visible items
+    - prefix = ACDATA
+        Printed before the title of each item in the inventory.
+    - suffix = ACDATA
+        Printed after the title of each item in the inventory.
+        
+QUIT
+---- 
+Exits the program.
+
+Aux Keys:
+    None
+
+SAVE
+---- 
+Saves the state of the game to a file.
+
+Aux Keys:
+    - savename = CDATA 
+        The name of the saved game (used as the filename, after appending the .ets extension)
+    - prompt = ACDATA
+        If savename is not given, and the action is called without arguments, the user will be
+        prompted to enter a name for the saved game with this text.
+    - empty = ACDATA
+        Printed if the user did not enter a name for the saved game.
+    - invalid = ACDATA
+        Printed if the save name the user entered was invalid.
+    - success = ACDATA
+        Printed if the save succeeded.
+    - failed = ACDATA
+        Printed if the save file could not be written to disk.
+
+LOAD
+---- 
+Loads the state of a saved game from a file, overwriting the current game state.
+
+Aux Keys:
+    - savename = CDATA 
+        The name of the saved game (used as the filename, after appending the .ets extension)
+    - prompt = ACDATA
+        If savename is not given, and the action is called without arguments, the user will be
+        prompted to enter a name for the saved game with this text.
+    - empty = ACDATA
+        Printed if the user did not enter a name for the saved game.
+    - invalid = ACDATA
+        Printed if the save name the user entered was invalid.
+    - success = ACDATA
+        Printed if the load succeeded.
+    - failed = ACDATA
+        Printed if the save file could not be read from disk, or if the content was incorrect.
+
+INSPECT
+------ 
+Inspects an item in the current location or the inventory (currently unimplemented)
+
+4. Escape Codes / Variables
+===========================
+
+Values of type ACDATA may contain {...} blocks that reference predefined variables or escape codes. 
+When the value is printed, the {...} blocks are replaced with the variable's value or an action
+corresponding to the escape code.
+
+The following variables and escape codes are currently understood:
+
+{location.title} 
+    The title of the player's current location
+    
+{location.desc}
+    The description of the current location
+    
+{location.prompt}
+    The currently displayed prompt
+
+{location.gid}
+    A unique numeric identifier for the current location (not the ID)
+    
+{d}
+    Delays printing of the remainder of the ACDATA block for 0.5 seconds
+    
+{p}
+    Pauses printing of this ACDATA block until the user presses enter.
+    
+{cmd}
+    The last command the user typed.
+    
+{args}
+    The arguments to the last action.
+    
+{s}
+    A forced space.
+    
+{br}
+    A forced line break.

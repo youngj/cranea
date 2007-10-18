@@ -1,0 +1,796 @@
+<adventure name="Cranea" start='main'>
+  <cleartext>
+    It is no use trying to hack this text adventure.
+  </cleartext>
+  <location id='main' start='start' prompt='cranea17:&gt;'>
+    <action returnVisit='true'>
+      { location.title }
+    </action>
+    <action firstVisit='true' type='look'>
+      { location.title }
+      { location.desc }
+      <alt cmd='look' />
+      <aux key='prefix'>
+        There is{S}
+      </aux>
+      <aux key='suffix'>
+        .
+      </aux>
+    </action>
+    <action cmd='talk'>
+      To whom?
+    </action>
+    <action cmd='eat'>
+      This doesn't look like a very good place to eat.
+    </action>
+    <action cmd='get'>
+      It doesn't seem like you can take that.
+    </action>
+    <action cmd='cry'>
+      Aww, why are you so sad?
+    </action>
+    <action cmd='kill'>
+      That doesn't seem very nice.
+    </action>
+    <action cmd='yell'>
+      Shhh...
+    </action>
+    <action cmd='look'>
+      It's too dark to see here.
+    </action>
+    <action cmd='drop' type='drop'>
+      <aux key='success'>
+        Dropped.
+      </aux>
+      <aux key='failure'>
+        Couldn't find {args} in the inventory.
+      </aux>
+    </action>
+    <action cmd='take' type='take'>
+      <aux key='success'>
+        Taken.
+      </aux>
+      <aux key='failure'>
+        Couldn't find {args} here.
+      </aux>
+    </action>
+    <action>
+      Unknown command: '{cmd}'
+    </action>
+    <action cmd='exit' type='QUIT'>
+      Press [Enter] to exit...{P}
+    </action>
+    <item id='bar' title='BAR!' />
+    <location id='start'>
+      Logging into the California Rapid Alert Narcotics Enforcement Agency:
+
+      Please wait while we acquire a network connection...
+      Diverting 800 watts auxiliary power to wireless adapter...
+      Contacting geosynchronous satellite...
+      Initiating kerberos login...{D}.
+      Login successful!
+
+      ----------------------------------------------------------------------
+      Sun Blade 2000    CraneaOS 1.1   2 GB RAM    1 GB swap   6.5 GB tmp
+      ----------------------------------------------------------------------
+      Welcome to the Cranea Computing Environment
+      Authorized use only. See http://cranea.stanford.edu
+      ----------------------------------------------------------------------
+      For automated assistance, call 475-0882
+      ----------------------------------------------------------------------
+      The current time is {time}
+      ** Type 'help' for a list of useful commands. **
+
+      <action forced='true' dest='evidence' />
+    </location>
+    <location id='evidence' prompt='cranea17:/evidence&gt;'>
+      <synonyms>
+        <s>exit</s>
+        <s>quit</s>
+        <s>logoff</s>
+      </synonyms>
+      <action cmd='inventory' type='inventory'>
+        <aux key='empty'>
+          Your inventory is empty, foo'.          
+        </aux>
+        <aux key='prefix'>
+          You have{S}
+        </aux>
+        <aux key='suffix'>
+          !
+        </aux>
+      </action>
+      <action cmd='exit' type='QUIT'>
+        Releasing Kerberos credentials...{D}.
+        Terminating SSH connection...{D}.
+        Powering down wireless adapter...{D}.
+
+        Done.
+        Press [Enter] to exit...{P}
+      </action>
+      <action cmd='cd backups' type='call' dest='backups' />
+      <action cmd='cd'>
+        Directory not found.
+      </action>
+      <action cmd='dir'>
+        What do you think this is, DOS?
+      </action>
+      <action cmd='ls'>
+        What do you think this is, UNIX?
+      </action>
+      <action cmd="deltree">
+        I'm sorry Dave, I'm afraid I can't do that.
+        This mission is too important for me to allow you to jeopardize it.
+      </action>
+      <action cmd="pi">
+        3.141592653589793238462643383279502884197169399375
+      </action>
+      <action cmd="analyze don't forget to bring a towel">
+        Evidence Analysis Server
+        ------------------------
+        "Don't forget to bring a towel!"
+        - Towelie (South Park Episode 508)
+
+        The solution to Featured Case 1: Buck Argenziano.
+      </action>
+      <action cmd="transcript bcjhrxor">
+        Transcript Retrieval System
+        ---------------------------
+        Michael Nyman
+        4/22/2005 Transcript
+        Transcribed by: fillindots
+
+        Dement's drug dealt death upon:
+
+        ....... Nuestra Senora de la Soledad
+        ....... San Antonio de Padua
+        ....... San Carlos Borromeo
+        ....... San Diego de Alcala
+        ....... San Fernando Rey de Espana
+        ....... San Francisco de Asis
+        ....... San Francisco de Sonoma
+        ....... San Juan Bautista
+        ....... San La Purisima Concepcion
+        ....... San Luis Rey
+        ....... Santa Clara de Asis
+
+        in ... .... -
+        the Rich Coast capital!
+      </action>
+      <action cmd="analyze Mission San Jose">
+        Evidence Analysis System
+        ------------------------
+        So, it looks like you have your first destination, trainees!
+        Good work!
+
+        Mission San Jose is located in Fremont, CA. Time to break out
+        the map!
+      </action>
+      <action cmd="activate robot nperio">
+        <alt cmd="activate robot nfullst" />
+        <needs item="adventureDone" />
+        That doesn't work anymore.
+      </action>
+      <action cmd="activate robot nperio" dest="robot">
+        <takes item="blowItUp" />
+      </action>
+      <action cmd="activate robot nfullst" dest="robot">
+        <takes item="saveIt" />        
+      </action>
+      <item id="blowItUp" />
+      <item id="saveIt" />
+    </location>
+    <location id='backups'>
+      You are now in the secret backup clue repository.
+
+      <action cmd='welcome-message' type='RETURN' file='welcome'>
+        Secret backup for welcome message
+      </action>
+      <action cmd='clue 1' type='RETURN'>
+        No secret backup necessary
+      </action>
+      <action cmd='psych!' type='RETURN' file='psychProfile'>
+        Secret backup for puzzle 3
+      </action>
+      <action cmd='exit' type='RETURN' />
+      <action type='RETURN'>
+        Invalid filename.
+      </action>
+    </location>
+    <location id='robot' start='robotBegin' prompt='robot:&gt;' title='Robot Adventure'>
+      <action cmd='look' type='LOOK' firstVisit='true'>
+        { location.title }
+        { location.desc }
+      </action>
+      <action cmd='inventory' type='INVENTORY' />
+      <synonyms>
+        <s>i</s>
+        <s>inventory</s>
+      </synonyms>
+      <synonyms>
+        <s>get</s>
+        <s>take</s>
+      </synonyms>
+      <synonyms>
+        <s>north</s>
+        <s>n</s>
+      </synonyms>
+      <synonyms>
+        <s>south</s>
+        <s>s</s>
+      </synonyms>
+      <synonyms>
+        <s>east</s>
+        <s>e</s>
+      </synonyms>
+      <synonyms>
+        <s>west</s>
+        <s>w</s>
+      </synonyms>
+
+      <action cmd='west'>
+        <alt cmd='east' />
+        <alt cmd='south' />
+        <alt cmd='north' />
+        You can't go that way.
+      </action>
+
+      <location id='robotBegin' title='Cranea HQ Remote Activation'>
+        ----------------------------
+        Searching for unused robot....
+        Connecting to robot...{D}.
+
+        Robot remote control initiated successfully!
+        Any commands you type will now be relayed to the robot.
+        -------------------------------------------------------
+        <action forced='true' dest='robotStart' />
+      </location>
+      <location id='robotStart' title='Storage Room'>
+        You are in what seems to be a storage room, with several
+        deactivated robots leaning against all four walls, and various
+        useful-looking cleaning supplies strewn about on the floor.
+        An open doorway leads to a hallway to the north.
+        <ignored token='cleaning' />
+        <ignored token='empty' />
+        <action cmd='look robots'>
+          There are several GZK-8999 robots that look just like yours
+          truly, except that they are deactivated and leaning against a
+          wall. It doesn't look like you'll need them for anything.
+        </action>
+        <action cmd='look cleaning supplies'>
+          <needs item='mop' />
+          There are a number of empty bottles of cleaning solutions.
+        </action>
+        <action cmd='look cleaning supplies'>
+          There are a number of empty bottles of cleaning solutions and
+          a mop.
+        </action>
+        <action cmd='get bottles'>
+          The bottles are sticky, bulky, empty, and probably not good
+          for much.
+        </action>
+        <action cmd="get mop">
+          <needs item="mop" />
+          There isn't a mop to get there anymore!
+        </action>
+        <action cmd="get mop">
+          <takes item="mop"  />
+          You take the mop.
+        </action>
+        <action cmd="north" dest="hallway1">
+          You leave the storage room.
+        </action>
+        <item id='mop' visible='false' title='a standard mop'>
+          It's just a normal old mop.
+        </item>
+      </location>
+      <location id='hallway1' title='Hallway'>
+        You are in a fairly plain-looking hallway. There are doors to
+        the east and west, and an open doorway to the south.
+
+        <action cmd='west' dest='switchRoom'>
+          <needs item='doorPropped' />
+          You duck under the mop handle and enter the room to the west.
+        </action>
+        <action cmd='west' dest='switchRoom'>
+          You open the door to the west and enter the room.  The door
+          closes behind you.
+        </action>
+        <action cmd='east' dest='craneaCentral'>
+          <needs item='switchFlipped' />
+          The door opens!  You step through the doorway.
+        </action>
+        <action cmd='east'>
+          The door won't budge!
+        </action>
+        <action cmd='look door'>
+          Which door?
+        </action>
+        <action cmd='look west door'>
+          <alt cmd='look east door' />
+          It's just a door.  Looks pretty unbreakable; there's no
+          keyhole.
+        </action>
+        <action cmd='south' dest='robotStart' />
+      </location>
+      <location id='switchRoom'>
+        You are in a small room with no furniture.  There wall is bare
+        except for a large, conspicuous looking switch on the wall.The
+        only exit is the door by which you entered the room.
+        <action cmd='look switch'>
+          When was the last time LOOKING at a switch accomplished
+          anything?
+        </action>
+        <action cmd='pull switch'>
+          <needs item='switchFlipped' />
+          <drops item='switchFlipped' />
+          You hear a click behind you. (2)
+        </action>
+        <action cmd='pull switch'>
+          <takes item='switchFlipped' />
+          You hear a click behind you.
+        </action>
+        <action cmd='east' dest='hallway1'>
+          <needs item='doorPropped' />
+          You duck under the mop handle and enter the room to the east.
+        </action>
+        <action cmd='east'>
+          <needs item='switchFlipped' />
+          The door is locked! Hmm...
+        </action>
+        <action cmd='prop door'>
+          With what?
+        </action>
+        <action cmd='prop door with mop'>
+          <needs item='doorPropped' />
+          You, um, did that already.
+        </action>
+        <action cmd='prop door with mop'>
+          <needs item='switchFlipped' />
+          The door is locked, and, you can't very well prop open a door
+          that isn't openable to begin with.
+        </action>
+        <action cmd='prop door with mop'>
+          <needs item='mop' />
+          <takes item='doorPropped' />
+          With blatant disregard for ResEd security guidelines, you jam
+          the mop handle in the door.
+        </action>
+        <action cmd='prop door with mop'>
+          You don't have a mop!
+        </action>
+        <action cmd='east' dest='hallway1' />
+        <item id='switchFlipped' title='the switch has been flipped ' visible='false' />
+        <item id='doorPropped' />
+      </location>
+      <location id='craneaCentral' title='Cranea Front Office'>
+        This room seems to be Cranea's front office.  There is a
+        receptionists' desk with a chair, and not much else of note.
+        There is a large metal door to the south, and an office door
+        to the north.  There seems to be an exit to the building to
+        the east. There is also a maintenance door to the west.
+        <synonyms>
+          <s>paperclip</s>
+          <s>clip</s>
+        </synonyms>
+        <ignored token='paper' />
+        <action cmd='east'>
+          The door won't budge.  The robot probably wouldn't work
+          outside, anyway.
+        </action>
+        <action cmd='get gum'>
+          <needs item='paperClip' />
+          You try to pull off the gum, but it's too sticky.
+        </action>
+        <action cmd='look chair'>
+          It's just a chair.
+        </action>
+        <action cmd='get gum'>
+          You try to pull off the gum, but you prick your robot finger on
+          something. Ouch!
+        </action>
+        <action cmd='sit'>
+          This robot is unable to sit.
+        </action>
+        <action cmd='look desk'>
+          Fairly normal looking.  Eww!  Someone stuck a piece of gum to
+          the bottom!
+        </action>
+        <action cmd='look gum'>
+          <needs item='paperClip' />
+          There's just a sticky-looking wad of gum.
+        </action>
+        <action cmd='look gum'>
+          There's a paper clip stuck in the gum.
+        </action>
+        <action cmd='get paper clip'>
+          <needs item='paperClip' />
+          You already did that.
+        </action>
+        <action cmd='get paper clip'>
+          <takes item='paperClip' />
+          You take the paper clip from the gum.  Gross.
+        </action>
+        <action cmd='look door'>
+          The office door, the exit door, the maintenance door,
+          or the metal door?
+        </action>
+        <action cmd='look office door'>
+          The first conventional-looking door you've seen in the whole
+          place.  The handle won't turn, but there's a lock above it.  On
+          the door, "William Dement, Ph.D." is printed.
+        </action>
+        <action cmd='pick lock'>
+          With what?
+        </action>
+        <action cmd='pick lock with'>
+          You don't know how to pick a lock that way.
+        </action>
+        <action cmd='pick lock with paper clip'>
+          <needs item='paperClip' />
+          <takes item='lockPicked' />
+          Luckily this robot is an expert lock-picker and the door
+          unlocks.
+        </action>
+        <action cmd='north' dest='office'>
+          <needs item='lockPicked' />
+          You open the door and enter an office.
+        </action>
+        <action cmd='north'>
+          The door's locked.
+        </action>
+        <action cmd='look exit door'>
+          This door is locked, but it's not clear how one would
+          open it.  There is no handle, no lock, no windows, no
+          anything. You only know it's an exit door because of the
+          "Exit" sign above it.
+        </action>
+        <action cmd='look metal door'>
+          A sign on the door says "power generator" in big, scary red
+          letters.  There's a button next to the door; otherwise there's
+          nothing worth describing.
+        </action>
+        <action cmd='look maintenance door'>          
+          This door is locked, but it's not clear how one would open it.
+          There is no handle, no lock, no windows, no anything. Just
+          a sign that says "Maintenance".
+        </action>
+        <action cmd='push button'>
+          <needs item='reactorUnlocked' />
+          <takes item='reactorOpen' />
+          You hear a "ding" and the door slides open.
+        </action>
+        <action cmd='push button'>
+          Nothing happens.
+        </action>        
+        <action cmd='push button'>          
+          You hear a "buzz" and nothing happens.
+        </action>
+        <action cmd='west'>
+          The maintenance door has no handle. You try to push it, but
+          it won't budge.
+        </action>
+        <action cmd='south' dest='reactor'>
+          <needs item='reactorOpen' />
+          You go south to the self-proclaimed power generator room.
+        </action>
+        <action cmd='south'>
+          There's a big metal door in your way.
+        </action>
+        <item id='paperClip' visible='false' title='a paper clip' />
+        <item id='lockPicked' />
+        <item id='reactorOpen' />
+      </location>
+      <location id='office' title="Dement's Office">
+        Judging from the sign on the door, this seems to be the
+        office of Dr. William Dement. Who may or may not be the
+        same person as the Dr. Victor Dement you've been chasing
+        all night. There's not too much else to report, other than
+        a desk with a computer on it.
+
+        <synonyms>
+          <s>screen</s>
+          <s>monitor</s>          
+        </synonyms>
+
+        <ignored token='on' />
+        
+        <action cmd='sit'>
+          This robot is unable to sit.
+        </action>
+        <action cmd='look computer'>
+          The computer seems to be on, from the look of it, though the
+          monitor is blank.
+        </action>
+        <action cmd='look monitor'>
+          <needs item='monitorOn' />
+          It's a monitor.  Very exciting. There is a login prompt.
+        </action>
+        <action cmd='look monitor'>
+          The screen is blank. There's a power button on it.
+        </action>
+        <action cmd='turn monitor'>
+          <needs item='monitorOn' />
+          It's on, now, stop playing with it.
+        </action>
+        <action cmd='turn monitor'>
+          <takes item='monitorOn' />
+          Turning on the monitor reveals a login prompt.
+        </action>
+
+        <action cmd='type'>
+          <needs item='monitorOn' />
+          You here a beep, and the monitor displays "Invalid input!"
+        </action>
+        <action cmd='type'>
+          Nothing seems to happen.
+        </action>
+        <action cmd='type wdement'>
+          <alt cmd='type dement' />
+          <needs item='monitorOn' />
+          The monitor prompts you for a password.
+        </action>
+        <action cmd='type dement'>
+          <alt cmd='type james' />
+          <needs item='monitorOn' />
+          Haven't you been paying attention? THIS is the office of
+          professor William Dement, not narcotics trafficker Victor
+          Dement!
+        </action>
+        <action cmd='type sleepanddreams' dest='dementComp'>
+          <alt cmd='type sleep and dreams' />
+          <needs item='monitorOn' />
+        </action>
+        <action cmd='look desk'>          
+          The desk has one drawer.  There is also a photo next to the
+          computer.
+        </action>
+        <action cmd='look photo'>          
+          In the picture, you recognize Dement, who seems to be happily
+          lecturing to a bunch of students in a large auditorium.
+          Somebody told you Dement used to teach a class at Stanford...
+          What was it called again?
+
+          Somebody else told you that people tend to leave clues about
+          their password next to their computers. Hmmm...
+        </action>
+        <action cmd='look drawer'>
+          It's closed.
+        </action>
+        <action cmd='open drawer'>
+          It's locked!
+
+          Just kidding.
+          You open it and find this year's freshman facebook inside.
+        </action>
+        <action cmd='look facebook'>          
+          It says:
+
+          Stanford University Facebook
+          Class of 2008
+        </action>
+        <action cmd='get facebook'>          
+          What, you forgot to bring your own?
+        </action>
+        <action cmd='south' dest='craneaCentral'>
+          You return to the reception area.
+        </action>
+        <action cmd='turn off computer'>          
+          Without shutting it down properly?  No wonder you bug the RCCs
+          with computer problems all the time.
+        </action>
+        <item id='monitorOn' />
+      </location>
+      <location id='dementComp'>
+        The monitor displays the following message:
+
+        Welcome, Dr. Dement!  Would you like to (c)heck e-mail,
+        (u)nlock the reactor room, or (l) log out?
+        
+        <synonyms>
+          <s>north</s>
+          <s>south</s>
+          <s>east</s>
+          <s>west</s>
+        </synonyms>
+        <action cmd='north'>
+          Without logging out first?  Sigh.  Haven't your RCCs taught
+          you anything?
+        </action>
+        <action cmd='type'>
+          The computer gives you an "Invalid input" message.
+        </action>
+        <action cmd='type c' dest='emailPage' />
+        <action cmd='type u'>
+          <needs item='reactorUnlocked' />
+          I did that already!
+        </action>
+        <action cmd='type u'>
+          <takes item='reactorUnlocked' />
+          Done!
+        </action>
+        <action cmd='type l' dest='office'>
+          The monitor displays the message: "Goodbye!"
+
+          Having successfully logged out, you continue your quest.
+        </action>
+        <action cmd='u'>
+          <alt cmd='l' />
+          <alt cmd='c' />
+          If you want to type something, use the word "type".
+        </action>
+        <item id='reactorUnlocked' />
+      </location>
+      <location id='emailPage'>
+        The monitor displays the message:
+
+        You have 0 unread messages, and 1 saved message.
+        Options: (r)ead message, (m)ain menu
+
+        <action cmd='type m' dest='dementComp' />
+        <action cmd='type r' dest='emailPage'>
+          The monitor displays the message:
+
+          Hi Dr. W!
+
+          Thanks for doing all that research on sleep and dreams! It really
+          helped me perfect my new Super Drug. Hahaha!
+
+          Drowsiness is red alert,
+          Dr. V
+        </action>
+        <action cmd='r'>
+          <alt cmd='m' />
+          If you want to type something, use the word "type".
+        </action>
+      </location>
+    
+    <location id='reactor' title='Cranea Power Reactor'>
+      You've finally made it to the Cranea power reactor room!  You
+      can see the lifeblood of the Cranea organization behind thick
+      glass. There is a console on the wall.
+      <action cmd='look console'>
+        <needs item='saveIt' />
+        There is a small keyboard, a blank screen, and a big, red
+        button marked "ABORT SELF-DESTRUCT".  There is a note taped
+        next next to the console.
+      </action>
+      <action cmd='look console'>
+        <needs item='blowItUp' />
+        There is a small keyboard, a blank screen, and a big, red
+        button marked "SELF-DESTRUCT".  There is a note taped
+        next next to the console.
+      </action>
+      <action cmd='type'>
+        Perhaps you didn't hear me clearly.  I said there was a BIG
+        RED BUTTON next to the console.
+      </action>
+      <action cmd='push big red button'>
+        There's only one button here. You might as well just say
+        "push button".
+      </action>
+      <action cmd='push button'>
+        <needs item='saveIt' />
+        <takes item='buttonPushed' />
+        Of course!  Pushing the big red button is ALWAYS the right
+        thing to do. The console screen flashes, "enter password to
+        abort self-destruct:".
+      </action>
+      <action cmd='push button'>
+        <needs item='blowItUp' />
+        <takes item='buttonPushed' />
+        Of course!  Pushing the big red button is ALWAYS the right
+        thing to do. The console screen flashes, "enter password to
+        initiate self-destruct sequence:"
+      </action>
+      <action cmd='push button'>
+        <needs item='saveIt' />
+        <needs item='buttonPushed' />
+        What, you want to abort the self-destruct twice?
+      </action>
+      <action cmd='push button'>
+        <needs item='blowItUp' />
+        <needs item='buttonPushed' />
+        what, you want to blow it up twice?
+      </action>
+      <action cmd='type'>
+        <needs item='buttonPushed' />
+        Nothing happens.
+      </action>
+      <action cmd='type schwaa' dest='evidence'>
+        <needs item='buttonPushed' />
+        <needs item='saveIt' />
+        <takes item='adventureDone' />
+        
+        As you start to type the password, you notice a sequence of
+        messages on the computer:
+
+        Cranea Reactor Control Log {time}
+        vdement:login...{D} Done.
+        vdement:test-proximity robot...{D} Done.
+        vdement:self-destruct robot...{D}{D}{D}{D}{D}
+
+        Burnination sequence initializing.{D}
+        Burnination in 10.... {D}{D}
+        9...{D}{D}
+        8...{D}{D}
+        7...
+
+        You quickly realize that Dement is trying to destroy your robot
+        in the reactor room, which would almost certainly cause the
+        utter destruction of Cranea headquarters. Uh oh. {D}{D}{D}{D}{D}{D}
+
+        4...{D}{D}
+        3...
+
+        Quickly you finish typing the password.{D}{D}{D}{D}
+
+        1...{D}{D}
+
+        The screen flashes:
+
+        Self-destruct sequence aborted.
+        Explosive deactivated.
+        locate vdement:  Montara State Beach (last known location)
+        Robot powering down...
+
+        The robot powers off.
+
+        Nicely done!  You've saved Cranea from utter destruction!
+      </action>
+      <action cmd="type schwaa" dest='evidence'>
+        <needs item='buttonPushed' />
+        <needs item='blowItUp' />
+        <takes item='adventureDone' />
+        Robot self-destruct activated.
+        Burnination sequence initializing.
+        Burnination in 10.... {D}{D}
+        9...{D}{D}
+        8...{D}{D}
+        7...{D}{D}
+        6...{D}{D}
+        5...{D}{D}
+        4...{D}{D}
+        3...{D}{D}
+        2...{D}{D}
+        1...{D}{D}{D}{D}
+
+        The robot transmits its final message, '4000CABRILLOBLVDJETTY', and
+        you hear an earth-shattering kaboom as it self-destructs.
+        Congratulations!  You've successfully destroyed Cranea Headquarters!
+
+        Fortunately the Cranea servers and phone system are located in a
+        heavily fortified bunker outside of HQ, so you should still be able
+        to use them, as long as the (surviving) Cranea agents don't know that
+        your team was responsible for destroying their headquarters...
+      </action>
+      <action cmd="look note">
+        <alt cmd="read note" />
+        The note reads:
+
+        Tiana Epps-Johnson
+        Patrick Fitzgerald
+        Gabriella Hdez
+
+        Helen Lu
+        John Maas
+
+        Silvia Loica-Mersa
+        Pat Maynor
+        Erica Mayyasi
+
+        Zi Shen Lim
+        Jazib Zahir
+        Ian Abernathy
+        Danny Arbiter
+
+        Leah Leff
+
+        Sean Sandoloski
+      </action>
+      <item id="adventureDone" />
+      <item id="buttonPushed" />
+    </location>
+    </location>
+  </location>
+</adventure>

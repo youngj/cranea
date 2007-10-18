@@ -1,0 +1,958 @@
+<adventure name='Crowther' start='main'>
+    <cleartext>
+    Resistance is futile.        
+    </cleartext>
+    <location id='main' title='MAIN' start='1' prompt='&gt; '>
+        <location id='0'>
+            <action forced='true' type='QUIT'>
+                Press Enter to exit.{P}
+            </action>
+        </location>
+          <action cmd='save' type='save'>
+            <aux key='success'>
+              save complete!
+            </aux>
+            <aux key='failure'>
+              save failed =(
+            </aux>
+            <aux key='invalid'>
+              invalid filename
+            </aux>
+            <aux key='prompt'>
+              enter a name for the saved game: 
+            </aux>
+          </action>
+          <action cmd='load' type='load'>
+            <aux key='success'>
+              load complete!
+            </aux>
+            <aux key='failure'>
+              load failed =(
+            </aux>
+            <aux key='empty'>
+              empty
+            </aux>
+            <aux key='invalid'>
+              invalid filename
+            </aux>
+            <aux key='prompt'>
+              enter the name of a saved game: 
+            </aux>
+        </action>    
+        <action returnVisit='true'>
+          { LOCATION.TITLE }
+        </action>
+        <action firstVisit='true' cmd='look' type='LOOK'>
+            { location.title }
+            {location.desc}
+            <aux key='prefix'>There is{S}</aux>
+            <aux key='suffix'>{S}here.</aux>
+        </action>
+        <action cmd='quit' type='QUIT'>
+            Press Enter to exit.{P}
+        </action>
+        <action cmd='take' type='TAKE'>
+            <aux key='success'>Taken.</aux>
+            <aux key='failure'>I don't see that here.</aux>
+        </action>
+        <action cmd='inventory' type='INVENTORY'>
+            <aux key='empty'>You are empty-handed.</aux>
+            <aux key='nonempty'>You are carrying:</aux>
+            <aux key='prefix'>{S}</aux>
+        </action>
+        <action cmd='drop' type='DROP'>
+            <aux key='success'>Dropped.</aux>
+            <aux key='failure'>You're not carrying that.</aux>
+        </action>
+        <action cmd='north'>
+           <alt cmd='south' />
+           <alt cmd='east' />
+           <alt cmd='west' />
+           <alt cmd='up' />
+           <alt cmd='down' />
+            There is no way to go in that direction.
+        </action>
+        <action>
+            You can't do that.
+        </action>
+       <synonyms>
+           <s>Q</s>
+           <s>QUIT</s>
+       </synonyms>
+       <synonyms>
+           <s>L</s>
+           <s>LOOK</s>
+       </synonyms>
+       <synonyms>
+           <s>CATCH</s>
+           <s>TAKE</s>
+       </synonyms>
+       <synonyms>
+           <s>RELEASE</s>
+           <s>DROP</s>
+       </synonyms>
+       <synonyms>
+           <s>I</s>
+           <s>INVENTORY</s>
+       </synonyms>
+       <synonyms>
+           <s>N</s>
+           <s>NORTH</s>
+       </synonyms>
+       <synonyms>
+           <s>S</s>
+           <s>SOUTH</s>
+       </synonyms>
+       <synonyms>
+           <s>E</s>
+           <s>EAST</s>
+       </synonyms>
+       <synonyms>
+           <s>W</s>
+           <s>WEST</s>
+       </synonyms>
+       <synonyms>
+           <s>U</s>
+           <s>UP</s>
+       </synonyms>
+       <synonyms>
+           <s>D</s>
+           <s>DOWN</s>
+       </synonyms>
+       <synonyms>
+           <s>BACK</s>
+           <s>OUT</s>
+       </synonyms>
+       <synonyms>
+           <s>GOLD</s>
+           <s>NUGGET</s>
+       </synonyms>
+       <synonyms>
+           <s>BAG</s>
+           <s>COINS</s>
+       </synonyms>
+       <synonyms>
+           <s>NEST</s>
+           <s>EGGS</s>
+       </synonyms>
+       <synonyms>
+           <s>WATER</s>
+           <s>BOTTLE</s>
+       </synonyms>
+       <location id='1' title="Outside building">
+           You are standing at the end of a road before a small brick
+           building.  A small stream flows out of the building and
+           down a gully to the south.  A road runs up a small hill
+           to the west.
+           <action cmd='WEST' dest='2'>
+           </action>
+           <action cmd='UP' dest='2'>
+           </action>
+           <action cmd='NORTH' dest='3'>
+           </action>
+           <action cmd='IN' dest='3'>
+           </action>
+           <action cmd='SOUTH' dest='4'>
+           </action>
+           <action cmd='DOWN' dest='4'>
+           </action>
+       </location>
+       <location id='2' title="End of road">
+           You are at the end of a road at the top of a small hill.
+           You can see a small building in the valley to the east.
+           <action cmd='EAST' dest='1'>
+           </action>
+           <action cmd='DOWN' dest='1'>
+           </action>
+       </location>
+       <location id='3' title="Inside building">
+           You are inside a building, a well house for a large spring.
+           The exit door is to the south.  There is another room to
+           the north, but the door is barred by a shimmering curtain.
+           <item id='KEYS' title="a set of keys" restrictTake='false'>
+               <alt title='KEYS' />
+           </item>
+           <item id='BOTTLE' title="a bottle of water" restrictTake='false'>
+               <alt title='BOTTLE' />
+           </item>
+           <action cmd='SOUTH' dest='1'>
+           </action>
+           <action cmd='OUT' dest='1'>
+           </action>
+           <action cmd='NORTH' dest='70'>
+           </action>
+           <action cmd='XYZZY' dest='12'>
+               <needs item='LAMP' />
+           </action>
+           <action cmd='XYZZY' dest='10'>
+           </action>
+           <action cmd='PLUGH' dest='48'>
+               <needs item='LAMP' />
+           </action>
+           <action cmd='PLUGH' dest='10'>
+           </action>
+       </location>
+       <location id='4' title="Valley beside a stream">
+           You are in a valley in the forest beside a stream tumbling
+           along a rocky bed.  The stream is flowing to the south.
+           <action cmd='NORTH' dest='1'>
+           </action>
+           <action cmd='UP' dest='1'>
+           </action>
+           <action cmd='SOUTH' dest='5'>
+           </action>
+           <action cmd='DOWN' dest='5'>
+           </action>
+       </location>
+       <location id='5' title="Slit in rock">
+           At your feet all the water of the stream splashes into a
+           two-inch slit in the rock.  To the south, the streambed is
+           bare rock.
+           <action cmd='NORTH' dest='4'>
+           </action>
+           <action cmd='UP' dest='4'>
+           </action>
+           <action cmd='SOUTH' dest='6'>
+           </action>
+           <action cmd='DOWN' dest='6'>
+           </action>
+       </location>
+       <location id='6' title="Outside grate">
+           You are in a 20-foot depression floored with bare dirt.
+           Set into the dirt is a strong steel grate mounted in
+           concrete.  A dry streambed leads into the depression from
+           the north.
+           <action cmd='NORTH' dest='5'>
+           </action>
+           <action cmd='UP' dest='5'>
+           </action>
+           <action cmd='DOWN' dest='8'>
+               <needs item='KEYS' />
+           </action>
+           <action cmd='DOWN' dest='7'>
+           </action>
+       </location>
+       <location id='7' title="Above locked grate">
+           The grate is locked and you don't have any keys.
+           <action forced='true' dest='6'>
+           </action>
+       </location>
+       <location id='8' title="Beneath grate">
+           You are in a small chamber beneath a 3x3 steel grate to
+           the surface.  A low crawl over cobbles leads inward to
+           the west.
+           <item id='LAMP' title="a brightly shining brass lamp" restrictTake='false'>
+               <alt title='LAMP' />
+           </item>
+           <action cmd='UP' dest='6'>
+           </action>
+           <action cmd='OUT' dest='6'>
+           </action>
+           <action cmd='IN' dest='9'>
+           </action>
+           <action cmd='WEST' dest='9'>
+           </action>
+       </location>
+       <location id='9' title="Cobble crawl">
+           You are crawling over cobbles in a low east/west passage.
+           There is a dim light to the east.
+           <action cmd='EAST' dest='8'>
+           </action>
+           <action cmd='WEST' dest='12'>
+               <needs item='LAMP' />
+           </action>
+           <action cmd='WEST' dest='10'>
+           </action>
+       </location>
+       <location id='10' title="Darkness">
+           It is now pitch dark.  If you proceed you will likely fall
+           into a pit.
+           <action cmd='EAST' dest='9'>
+           </action>
+           <action cmd='OUT' dest='9'>
+           </action>
+           <action cmd='XYZZY' dest='3'>
+           </action>
+           <action cmd='PLUGH' dest='3'>
+           </action>
+           <action cmd='NORTH' dest='11'>
+           </action>
+           <action cmd='SOUTH' dest='11'>
+           </action>
+           <action cmd='WEST' dest='11'>
+           </action>
+           <action cmd='UP' dest='11'>
+           </action>
+           <action cmd='DOWN' dest='11'>
+           </action>
+       </location>
+       <location id='11' title="Pit">
+           You fell into a pit and broke every bone in your body!
+           <action forced='true' dest='0'>
+           </action>
+       </location>
+       <location id='12' title="Debris room">
+           You are in a debris room filled with stuff washed in from
+           the surface.  A low wide passage with cobbles becomes
+           plugged with mud and debris here, but an extremely narrow
+           canyon leads upward and west.  Carved on the wall is the
+           message: "Magic Word XYZZY".
+           <item id='ROD' title="a black rod with a rusty star" restrictTake='false'>
+               <alt title='ROD' />
+           </item>
+           <action cmd='EAST' dest='9'>
+           </action>
+           <action cmd='WEST' dest='13'>
+           </action>
+           <action cmd='UP' dest='13'>
+           </action>
+           <action cmd='XYZZY' dest='3'>
+           </action>
+       </location>
+       <location id='13' title="Sloping canyon">
+           You are in an awkward sloping east/west canyon.
+           <action cmd='EAST' dest='12'>
+           </action>
+           <action cmd='DOWN' dest='12'>
+           </action>
+           <action cmd='WEST' dest='14'>
+               <needs item='BIRD' />
+           </action>
+           <action cmd='WEST' dest='15'>
+               <needs item='ROD' />
+           </action>
+           <action cmd='WEST' dest='14'>
+           </action>
+           <action cmd='UP' dest='14'>
+               <needs item='BIRD' />
+           </action>
+           <action cmd='UP' dest='15'>
+               <needs item='ROD' />
+           </action>
+           <action cmd='UP' dest='14'>
+           </action>
+       </location>
+       <location id='14' title="Chamber of orange stone">
+           You are in a splendid chamber thirty feet high.  The walls
+           are frozen rivers of orange stone.  A narrow canyon and a
+           good passage exit from east and west sides of the chamber.
+           <item id='BIRD' title="a little bird" restrictTake='false'>
+               <alt title='BIRD' />
+           </item>
+           <action cmd='EAST' dest='13'>
+           </action>
+           <action cmd='WEST' dest='16'>
+           </action>
+       </location>
+       <location id='15' title="Chamber of orange stone">
+           You are in a splendid chamber thirty feet high.  The walls
+           are frozen rivers of orange stone.  A narrow canyon and a
+           good passage exit from east and west sides of the chamber.
+           High in the cavern, you see a little bird flying around
+           the rocks.  It takes one look at the black rod and quickly
+           flies out of sight.
+           <action cmd='EAST' dest='13'>
+           </action>
+           <action cmd='WEST' dest='16'>
+           </action>
+       </location>
+       <location id='16' title="Top of pit">
+           At your feet is a small pit breathing traces of white mist.
+           An east passage ends here except for a small crack leading
+           on.  Rough stone steps lead into the pit.
+           <action cmd='EAST' dest='14'>
+               <needs item='BIRD' />
+           </action>
+           <action cmd='EAST' dest='15'>
+               <needs item='ROD' />
+           </action>
+           <action cmd='EAST' dest='14'>
+           </action>
+           <action cmd='WEST' dest='17'>
+           </action>
+           <action cmd='DOWN' dest='18'>
+           </action>
+       </location>
+       <location id='17' title="Narrow crack">
+           The crack is far too small for you to follow.
+           <action forced='true' dest='16'>
+           </action>
+       </location>
+       <location id='18' title="Hall of mists">
+           You are at one end of a vast hall stretching forward out of
+           sight to the west.  The hall is filled with wisps of white
+           mist swaying to and fro almost as if alive.  There are
+           passages to the north and south, and a stone stairway
+           leads upward.
+           <action cmd='UP' dest='20'>
+               <needs item='NUGGET' />
+           </action>
+           <action cmd='UP' dest='16'>
+           </action>
+           <action cmd='WEST' dest='21'>
+           </action>
+           <action cmd='SOUTH' dest='19'>
+           </action>
+           <action cmd='NORTH' dest='42'>
+               <needs item='BIRD' />
+           </action>
+           <action cmd='NORTH' dest='40'>
+           </action>
+       </location>
+       <location id='19' title="Nugget of gold room">
+           This is a low room with a crude note on the wall.  The
+           note says, "You won't get it up the steps."
+           <item id='NUGGET' title="a nugget of gold" restrictTake='false'>
+               <alt title='NUGGET' />
+           </item>
+           <action cmd='NORTH' dest='18'>
+           </action>
+           <action cmd='OUT' dest='18'>
+           </action>
+       </location>
+       <location id='20' title="Unseen force">
+           An unseen force blocks your way and a ghostly voice echoes:
+           "You won't get it up the steps."
+           <action forced='true' dest='18'>
+           </action>
+       </location>
+       <location id='21' title="East bank of fissure">
+           You are on the east bank of a fissure slicing clear across
+           the hall.  The mist is quite thick here.
+           <action cmd='EAST' dest='18'>
+           </action>
+           <action cmd='WAVE' dest='24'>
+               <needs item='ROD' />
+           </action>
+           <action cmd='WAVE' dest='23'>
+           </action>
+           <action cmd='WEST' dest='22'>
+           </action>
+           <action cmd='JUMP' dest='29'>
+           </action>
+       </location>
+       <location id='22' title="Blocked by fissure">
+           The fissure looks too wide to cross.
+           <action forced='true' dest='21'>
+           </action>
+       </location>
+       <location id='23' title="Wave Rod (bug: doesn't check object)">
+           You don't have the appropriate thing to wave.
+           <action forced='true' dest='21'>
+           </action>
+       </location>
+       <location id='24' title="Crystal bridge crossing fissure">
+           As you wave the rod, a cascade of crystalline sparks issues
+           from its tip which gain shape and substance over the chasm.
+           In moments, a shimmering crystal bridge spans the fissure.
+           After you cross, the bridge fades into nothingness.
+           <action forced='true' dest='25'>
+           </action>
+       </location>
+       <location id='25' title="West bank of fissure">
+           You are on the west side of the fissure in the Hall of
+           Mists.
+           <item id='DIAMOND' title="a sparkling diamond" restrictTake='false'>
+               <alt title='DIAMOND' />
+           </item>
+           <action cmd='WEST' dest='30'>
+           </action>
+           <action cmd='WAVE' dest='28'>
+               <needs item='ROD' />
+           </action>
+           <action cmd='WAVE' dest='27'>
+           </action>
+           <action cmd='EAST' dest='26'>
+           </action>
+           <action cmd='JUMP' dest='29'>
+           </action>
+       </location>
+       <location id='26' title="Blocked by fissure">
+           The fissure looks too wide to cross.
+           <action forced='true' dest='25'>
+           </action>
+       </location>
+       <location id='27' title="Wave Rod (bug: doesn't check object)">
+           You don't have the appropriate thing to wave.
+           <action forced='true' dest='25'>
+           </action>
+       </location>
+       <location id='28' title="Crystal bridge crossing fissure">
+           As you wave the rod, a cascade of crystalline sparks issues
+           from its tip which gain shape and substance over the chasm.
+           In moments, a shimmering crystal bridge spans the fissure.
+           After you cross, the bridge fades into nothingness.
+           <action forced='true' dest='21'>
+           </action>
+       </location>
+       <location id='29' title="Fatal jump">
+           You make a mighty leap but fall several feet short of the
+           far side.  You make a few mad scrambles at the air as you
+           fall to your death on the rocks below.
+           <action forced='true' dest='0'>
+           </action>
+       </location>
+       <location id='30' title="West end of the Hall of Mists">
+           You are at the west end of Hall of Mists.  A low wide
+           crawl exits north.  To the south is a little passage
+           six feet off the floor that seems to twist sharply.
+           <action cmd='EAST' dest='25'>
+           </action>
+           <action cmd='NORTH' dest='46'>
+           </action>
+           <action cmd='SOUTH' dest='31'>
+           </action>
+       </location>
+       <location id='31' title="You are in a maze of twisty little passages, all alike.">
+           You are in a maze of twisty little passages, all alike.
+           <action cmd='WEST' dest='30'>
+           </action>
+           <action cmd='NORTH' dest='32'>
+           </action>
+           <action cmd='SOUTH' dest='33'>
+           </action>
+       </location>
+       <location id='32' title="You are in a maze of twisty little passages, all alike.">
+           You are in a maze of twisty little passages, all alike.
+           <action cmd='NORTH' dest='34'>
+           </action>
+           <action cmd='EAST' dest='31'>
+           </action>
+           <action cmd='WEST' dest='35'>
+           </action>
+       </location>
+       <location id='33' title="You are in a maze of twisty little passages, all alike.">
+           You are in a maze of twisty little passages, all alike.
+           <action cmd='NORTH' dest='35'>
+           </action>
+           <action cmd='EAST' dest='36'>
+           </action>
+           <action cmd='WEST' dest='31'>
+           </action>
+       </location>
+       <location id='34' title="You are in a maze of twisty little passages, all alike.">
+           You are in a maze of twisty little passages, all alike.
+           <action cmd='SOUTH' dest='36'>
+           </action>
+           <action cmd='WEST' dest='32'>
+           </action>
+           <action cmd='EAST' dest='39'>
+           </action>
+       </location>
+       <location id='35' title="You are in a maze of twisty little passages, all alike.">
+           You are in a maze of twisty little passages, all alike.
+           <action cmd='SOUTH' dest='32'>
+           </action>
+           <action cmd='WEST' dest='33'>
+           </action>
+       </location>
+       <location id='36' title="You are in a maze of twisty little passages, all alike.">
+           You are in a maze of twisty little passages, all alike.
+           <action cmd='EAST' dest='33'>
+           </action>
+           <action cmd='WEST' dest='34'>
+           </action>
+           <action cmd='NORTH' dest='37'>
+           </action>
+       </location>
+       <location id='37' title="You are in a maze of twisty little passages, all alike.">
+           You are in a maze of twisty little passages, all alike.
+           <action cmd='NORTH' dest='38'>
+           </action>
+           <action cmd='SOUTH' dest='36'>
+           </action>
+           <action cmd='WEST' dest='39'>
+           </action>
+       </location>
+       <location id='38' title="Pirate's lair">
+           You're in the pirate's lair deep in the maze.  The only
+           exit is south.
+           <item id='CHEST' title="a pirate chest" restrictTake='false'>
+               <alt title='CHEST' />
+           </item>
+           <action cmd='SOUTH' dest='37'>
+           </action>
+           <action cmd='OUT' dest='37'>
+           </action>
+       </location>
+       <location id='39' title="Brink of pit in the maze">
+           You are on the brink of a thirty-foot pit with a massive
+           orange column down one wall.  You could climb down here
+           but you could not get back up.  The maze continues at
+           this level.
+           <action cmd='EAST' dest='37'>
+           </action>
+           <action cmd='WEST' dest='34'>
+           </action>
+           <action cmd='DOWN' dest='14'>
+               <needs item='BIRD' />
+           </action>
+           <action cmd='DOWN' dest='15'>
+               <needs item='ROD' />
+           </action>
+           <action cmd='DOWN' dest='14'>
+           </action>
+       </location>
+       <location id='40' title="Hall of the Mountain King">
+           You are in the Hall of the Mountain King, with passages off
+           in several directions.  A fierce green snake bars your way.
+           <action cmd='SOUTH' dest='18'>
+           </action>
+           <action cmd='NORTH' dest='41'>
+           </action>
+           <action cmd='EAST' dest='41'>
+           </action>
+           <action cmd='WEST' dest='41'>
+           </action>
+       </location>
+       <location id='41' title="Blocked by snake">
+           You can't get by the snake.
+           <action forced='true' dest='40'>
+           </action>
+       </location>
+       <location id='42' title="Bird attacks snake">
+           As you enter the chamber, you see a fierce green snake.
+           Before you can think, the little bird flies from your
+           shoulder, attacks the green snake, and in an astounding
+           flurry drives the snake away.  The bird then flies back.
+           <action forced='true' dest='43'>
+           </action>
+       </location>
+       <location id='43' title="Hall of the Mountain King">
+           You are in the Hall of the Mountain King, with passages off
+           in several directions.
+           <action cmd='SOUTH' dest='18'>
+           </action>
+           <action cmd='NORTH' dest='47'>
+           </action>
+           <action cmd='WEST' dest='44'>
+           </action>
+           <action cmd='EAST' dest='45'>
+           </action>
+       </location>
+       <location id='44' title="West side chamber">
+           You are in the West Side Chamber of the Hall of the
+           Mountain King.  A passage continues west and up here.
+           <action cmd='EAST' dest='43'>
+           </action>
+           <action cmd='WEST' dest='46'>
+           </action>
+           <action cmd='UP' dest='46'>
+           </action>
+       </location>
+       <location id='45' title="East side chamber">
+           You are in the East Side Chamber of the Hall of the
+           Mountain King.
+           <item id='COINS' title="a bag of coins" restrictTake='false'>
+               <alt title='COINS' />
+           </item>
+           <action cmd='WEST' dest='43'>
+           </action>
+           <action cmd='OUT' dest='43'>
+           </action>
+       </location>
+       <location id='46' title="Long curving passage">
+           You are in a long passageway that curves from the east
+           to the south.
+           <action cmd='EAST' dest='44'>
+           </action>
+           <action cmd='SOUTH' dest='30'>
+           </action>
+       </location>
+       <location id='47' title="Low N/S passage">
+           You are in a low N/S passage with a hole in the floor.
+           <action cmd='NORTH' dest='48'>
+           </action>
+           <action cmd='SOUTH' dest='43'>
+           </action>
+           <action cmd='DOWN' dest='53'>
+           </action>
+       </location>
+       <location id='48' title="You're at &quot;Y2&quot;">
+           You are in a large room, with a passage to the south,
+           a passage to the west, and a wall of broken rock to the
+           east.  There is a large "Y2" on a rock in the room's
+           center.  As you enter, a hollow voice says "PLUGH".
+           <action cmd='SOUTH' dest='47'>
+           </action>
+           <action cmd='PLUGH' dest='51'>
+               <needs item='NUGGET' />
+           </action>
+           <action cmd='PLUGH' dest='3'>
+           </action>
+           <action cmd='EAST' dest='52'>
+           </action>
+           <action cmd='WEST' dest='49'>
+           </action>
+       </location>
+       <location id='49' title="Window on pit">
+           You're at a low window overlooking a huge pit, which
+           extends up out of sight.  A floor is indistinctly
+           visible over 50 feet below.  Traces of white mist
+           cover the floor of the pit, becoming thicker to the
+           left.  Marks in the dust around the window would seem
+           to indicate that someone has been here recently.
+           Directly across the pit from you and 25 feet away
+           there is a similar window in the wall of the pit.
+           You see a shadowy figure in the other window.
+           <action cmd='EAST' dest='48'>
+           </action>
+           <action cmd='OUT' dest='48'>
+           </action>
+           <action cmd='WAVE' dest='50'>
+           </action>
+       </location>
+       <location id='50' title="Figure waves back">
+           The figure waves back.  In fact, it seems to be
+           following your actions.
+           <action forced='true' dest='49'>
+           </action>
+       </location>
+       <location id='51' title="Too heavy">
+           As you utter the magic word, your surroundings begin
+           to fade in and out.  After a protracted struggle, you
+           hear a hollow voice say, "It's just too heavy."
+           <action forced='true' dest='48'>
+           </action>
+       </location>
+       <location id='52' title="Broken rock">
+           You wander around in the broken rock but don't find
+           anything interesting.
+           <action forced='true' dest='48'>
+           </action>
+       </location>
+       <location id='53' title="E/W passage">
+           You are in an E/W passage.  There is a hole in the
+           ceiling above that appears to open into a passage.
+           <action cmd='UP' dest='47'>
+           </action>
+           <action cmd='WEST' dest='58'>
+           </action>
+           <action cmd='EAST' dest='54'>
+           </action>
+       </location>
+       <location id='54' title="Green chamber">
+           You're in a small chamber lit by an eerie green light that
+           seems to emanate from an extremely narrow crack to the
+           north.  A dark corridor leads west.
+           <action cmd='WEST' dest='53'>
+               <needs item='LAMP' />
+           </action>
+           <action cmd='WEST' dest='57'>
+           </action>
+           <action cmd='NORTH' dest='56'>
+               <needs item='LAMP' />
+           </action>
+           <action cmd='NORTH' dest='56'>
+               <needs item='BIRD' />
+           </action>
+           <action cmd='NORTH' dest='56'>
+               <needs item='NUGGET' />
+           </action>
+           <action cmd='NORTH' dest='56'>
+               <needs item='COINS' />
+           </action>
+           <action cmd='NORTH' dest='55'>
+           </action>
+       </location>
+       <location id='55' title="Emerald room">
+           You're in a small chamber whose walls are studded with
+           glowing green gemstones.  A narrow crack leads south.
+           <item id='EMERALD' title="an emerald the size of a plover's egg" restrictTake='false'>
+               <alt title='EMERALD' />
+           </item>
+           <action cmd='SOUTH' dest='54'>
+           </action>
+           <action cmd='OUT' dest='54'>
+           </action>
+       </location>
+       <location id='56' title="Too narrow for crack">
+           Something you're carrying won't fit through the crack.
+           <action forced='true' dest='54'>
+           </action>
+       </location>
+       <location id='57' title="Darkness">
+           It is now pitch dark.  If you proceed you will likely fall
+           into a pit.
+           <action cmd='EAST' dest='54'>
+           </action>
+       </location>
+       <location id='58' title="East end of Twopit Room">
+           You are at the east end of the Twopit Room.  The floor
+           here is littered with thin rock slabs, which make it easy
+           to descend the pits.  There is a path here bypassing the
+           pits to connect passages from east and west.  There are
+           holes all over, but the only big one is in the roof
+           directly over the west pit where you can't get to it.
+           <action cmd='EAST' dest='53'>
+           </action>
+           <action cmd='WEST' dest='59'>
+           </action>
+           <action cmd='DOWN' dest='60'>
+           </action>
+       </location>
+       <location id='59' title="West end of Twopit Room">
+           You are at the west end of the Twopit Room.  There is
+           a large hole above the pit at this end of the room.
+           <action cmd='EAST' dest='58'>
+           </action>
+           <action cmd='WEST' dest='69'>
+           </action>
+           <action cmd='DOWN' dest='61'>
+           </action>
+       </location>
+       <location id='60' title="East pit">
+           You are at the bottom of the eastern pit in the Twopit
+           Room.
+           <action cmd='UP' dest='58'>
+           </action>
+       </location>
+       <location id='61' title="West pit">
+           You are at the bottom of the western pit in the Twopit
+           Room underneath a large hole in the ceiling.
+           <item id='PLANT' title="a small plant murmuring &quot;Water, water&quot;" restrictTake='false'>
+               <alt title='PLANT' />
+           </item>
+           <action cmd='UP' dest='59'>
+           </action>
+           <action cmd='WATER' dest='62'>
+               <needs item='PLANT' />
+           </action>
+           <action cmd='WATER' dest='63'>
+           </action>
+       </location>
+       <location id='62' title="Plant is already picked (bug: might be elsewhere)">
+           You can't water the plant after you've picked it.  You
+           might try replanting it.
+           <action forced='true' dest='61'>
+           </action>
+       </location>
+       <location id='63' title="Beanstalk">
+           As you water the plant, it bursts into violent growth,
+           quickly filling the entire pit and pushing you upward
+           toward the hole in ceiling.  You scramble for your life
+           and manage to catch hold of the rock and pull yourself to
+           safety.  The plant then shrinks away as quickly as it grew.
+           <action forced='true' dest='64'>
+           </action>
+       </location>
+       <location id='64' title="Giant room">
+           You are in the Giant Room.  The ceiling here is too high
+           up for your lamp to show it.  A cavernous passage leads
+           north.  There is a hole in the floor through which you
+           can see the Twopit room far below.
+           <item id='EGGS' title="a nest of golden eggs" restrictTake='false'>
+               <alt title='EGGS' />
+           </item>
+           <action cmd='NORTH' dest='66'>
+           </action>
+           <action cmd='DOWN' dest='65'>
+           </action>
+       </location>
+       <location id='65' title="Too big a drop">
+           Without the plant, it's far too large a drop.
+           <action forced='true' dest='64'>
+           </action>
+       </location>
+       <location id='66' title="Whirlpool">
+           You are in a magnificent cavern with a rushing stream,
+           which cascades over a sparkling waterfall into a roaring
+           whirlpool that disappears through a hole in the floor.
+           A passage exits to the south.
+           <action cmd='SOUTH' dest='64'>
+           </action>
+           <action cmd='DOWN' dest='67'>
+           </action>
+           <action cmd='SWIM' dest='67'>
+           </action>
+       </location>
+       <location id='67' title="ThroughWhirlpool">
+           You are dragged down, down, into the depths of the
+           whirlpool.  Just as you can no longer hold your breath,
+           you are shot out over a waterfall into the shallow end
+           of a large reservoir.  Gasping and sputtering, you crawl
+           weakly towards the shore.
+           <action forced='true' dest='68'>
+           </action>
+       </location>
+       <location id='68' title="Underground lake">
+           You are at the edge of a large underground reservoir.
+           An opaque cloud of white mist fills the room and rises
+           rapidly upward.  The lake is fed by a stream, which
+           tumbles out of a hole in the wall about ten feet
+           overhead and splashes noisily into the water somewhere
+           within the mist.  The only exit is to the south.
+           <action cmd='SOUTH' dest='69'>
+           </action>
+           <action cmd='OUT' dest='69'>
+           </action>
+       </location>
+       <location id='69' title="Mirror room">
+           You are in a circular chamber about 25 feet across.  The
+           floor is covered by white mist seeping in from the north.
+           The walls extend upward for well over 100 feet.  Suspended
+           from some unseen point far above you, an enormous two-sided
+           mirror is hanging parallel to and midway between the canyon
+           walls.  A small window can be seen in the wall some fifty
+           feet up.  The canyon has exits to the north and east.
+           <action cmd='NORTH' dest='68'>
+           </action>
+           <action cmd='EAST' dest='59'>
+           </action>
+       </location>
+       <location id='70' title="Curtain1">
+           <action forced='true' dest='71'>
+               <needs item='NUGGET' />
+           </action>
+           <action forced='true' dest='76'>
+           </action>
+       </location>
+       <location id='71' title="Curtain2">
+           <action forced='true' dest='72'>
+               <needs item='DIAMOND' />
+           </action>
+           <action forced='true' dest='76'>
+           </action>
+       </location>
+       <location id='72' title="Curtain3">
+           <action forced='true' dest='73'>
+               <needs item='EMERALD' />
+           </action>
+           <action forced='true' dest='76'>
+           </action>
+       </location>
+       <location id='73' title="Curtain4">
+           <action forced='true' dest='74'>
+               <needs item='EGGS' />
+           </action>
+           <action forced='true' dest='76'>
+           </action>
+       </location>
+       <location id='74' title="Curtain5">
+           <action forced='true' dest='75'>
+               <needs item='CHEST' />
+           </action>
+           <action forced='true' dest='76'>
+           </action>
+       </location>
+       <location id='75' title="Curtain6">
+           <action forced='true' dest='77'>
+               <needs item='COINS' />
+           </action>
+           <action forced='true' dest='76'>
+           </action>
+       </location>
+       <location id='76' title="Missing Treasures">
+           You can pass through this curtain only if you're carrying
+           all the treasures.  You don't yet have all six.
+           <action forced='true' dest='3'>
+           </action>
+       </location>
+       <location id='77' title="Victory">
+           You have collected all the treasures and are admitted to
+           the Adventurer's Hall of Fame.  Congratulations!
+           <action forced='true' dest='0'>
+           </action>
+       </location>
+   </location>
+</adventure>

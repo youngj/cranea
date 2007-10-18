@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "compiler", "compiler.vcproj", "{5E7F67A0-BC87-4482-86A6-14A5DC0295F8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "player", "player.vcproj", "{7F5449C4-0BEF-4A28-8E55-C73AC5C5BDDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E7F67A0-BC87-4482-86A6-14A5DC0295F8}.Debug|Win32.ActiveCfg = Release|Win32
+		{5E7F67A0-BC87-4482-86A6-14A5DC0295F8}.Debug|Win32.Build.0 = Release|Win32
+		{5E7F67A0-BC87-4482-86A6-14A5DC0295F8}.Release|Win32.ActiveCfg = Release|Win32
+		{5E7F67A0-BC87-4482-86A6-14A5DC0295F8}.Release|Win32.Build.0 = Release|Win32
+		{7F5449C4-0BEF-4A28-8E55-C73AC5C5BDDE}.Debug|Win32.ActiveCfg = Release|Win32
+		{7F5449C4-0BEF-4A28-8E55-C73AC5C5BDDE}.Debug|Win32.Build.0 = Release|Win32
+		{7F5449C4-0BEF-4A28-8E55-C73AC5C5BDDE}.Release|Win32.ActiveCfg = Release|Win32
+		{7F5449C4-0BEF-4A28-8E55-C73AC5C5BDDE}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,2 @@
+* check that loaded .crs files match the current adventure
+* inspect action type (for looking at particular items)
