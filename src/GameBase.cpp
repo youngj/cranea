@@ -13,6 +13,12 @@ using namespace CryptoPP;
 #include <map>
 
 #ifdef WIN32
+#define PATH_SEP "\\"
+#else
+#define PATH_SEP "/"
+#endif
+
+#ifdef WIN32
 #define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN			
 #include <windows.h> // for Sleep
@@ -1559,7 +1565,7 @@ void GameFile::launch()
 #else
 	string cmd = "open " + dest;
 #endif
-	
+    //cout << dest << endl;
 	if (system(("\"" + dest + "\"").c_str()) == -1)
 	{
 		cerr << "Your computer could not open " << dest << " automatically." << endl;
@@ -1579,7 +1585,7 @@ GameBase* GameFile::decrypt(GameContext &ctx, AutoPumpFilter &decryptor, GameLoc
 
     cleanFilename(file->dest, true);
 
-    file->dest = OUTPUT_DIR"/" + file->dest;
+    file->dest = OUTPUT_DIR PATH_SEP + file->dest;
     
     struct stat outputDirInfo;
     if (stat(OUTPUT_DIR, &outputDirInfo) != 0)

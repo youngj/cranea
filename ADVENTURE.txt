@@ -62,7 +62,7 @@ Attributes:
     - exact = BOOL          # IMPLIED (false)
         True if this action should not be executed if tokens have been removed from the user input
         during the search process described above.
-    - destId = LOCIDREF     # IMPLIED ("")
+    - dest = LOCIDREF     # IMPLIED ("")
         The ID of the location to move to after executing this action. If omitted or empty, the player 
         stays at the current location.
     - type = ACTTYPE        # IMPLIED ("")    

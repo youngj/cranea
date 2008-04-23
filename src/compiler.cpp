@@ -138,7 +138,16 @@ int main(int argc, char* argv[])
 {
     SourceContext ctx;
 
-    string inputFile = promptDefault("input file", "adventure.xml");
+    string inputFile;
+
+    if (argc > 1)
+    {
+        inputFile = argv[1];
+    }
+    else
+    {
+        inputFile = promptDefault("input file", "adventure.xml");
+    }
 
     bool success = parseInput(ctx, inputFile);
 
